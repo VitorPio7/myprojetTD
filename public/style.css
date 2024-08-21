@@ -20,9 +20,10 @@
   grid-template-columns: 0.7fr 1fr;
   justify-items: center;
   align-items: center;
+  margin-left: 5px;
 }
 .div1 > img {
-  width: 80px;
+  width: 50px;
 }
 .div1 > p {
   padding: 0px;
@@ -32,9 +33,13 @@
   margin: 0px;
 }
 .info > img {
-  width: 50px;
+  width: 30px;
   border-radius: 100%;
   margin-top: 18px;
+}
+.info > p {
+  font-size: 14px;
+  text-align: center;
 }
 .div3 {
   display: grid;
@@ -42,6 +47,7 @@
   align-items: center;
   justify-items: center;
   cursor: pointer;
+  gap: 5px;
 }
 .div3 p {
   margin: 0px;
