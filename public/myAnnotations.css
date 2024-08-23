@@ -39,7 +39,7 @@
   width: 150px;
   border: radius 10px;
   border-radius: 20px;
-  background-color: #4f674e;
+  background-color: #717273;
   color: white;
   border: transparent;
 }
@@ -53,7 +53,7 @@
 }
 .colum2 {
   display: grid;
-  grid-template-rows: 1fr 8fr;
+  grid-template-rows: 1fr 3fr 2fr 2f;
 }
 .colum2 > .title {
   display: flex;
@@ -67,10 +67,35 @@
   color: white;
   text-align: justify;
 }
+.buttons > input {
+  width: 150px;
+  height: 50px;
+  border-radius: 20px;
+  border: none;
+}
+.buttons {
+  display: flex;
+  justify-content: end;
+  padding-right: 20px;
+  gap: 5px;
+}
+.edit {
+  background-color: #ffbd59;
+  cursor: pointer;
+}
+.delete {
+  background-color: #ff3131;
+  cursor: pointer;
+}
+.colum2 > a {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
 @media only screen and (min-width: 768px) {
   .colum2 {
     display: grid;
-    grid-template-rows: 1fr 8fr;
+    grid-template-rows: 1fr 3fr 2fr 2f;
   }
   .colum2 > .text {
     padding-left: 40px;

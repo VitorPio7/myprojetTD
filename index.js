@@ -5,6 +5,7 @@ import * as  banck from './tryCatchs.js'
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(express.static('public'));
+const bookPreface = await banck.searchBookbyId(1)
 
 app.get('/', async (req, res) => {
     res.render('inicial.ejs');
@@ -20,9 +21,21 @@ app.get('/home', async (req, res) => {
     res.render("inicial.ejs")
 })
 app.get('/preface', async (req, res) => {
-
     res.render("preface.ejs", {
+        bookPreface: bookPreface
     })
+})
+app.get('/MyAnnotations', async (req, res) => {
+    res.render("My_annotations.ejs", {
+        bookPreface: bookPreface
+    })
+})
+
+app.get('/submit', async (req, res) => {
+    const bookAddAnnotation = req.body.inputText
+    console.log(bookAddAnnotation)
+    res.redirect("My_annotations.ejs")
+
 })
 app.listen(3000, () => {
     console.log("porta 3000")

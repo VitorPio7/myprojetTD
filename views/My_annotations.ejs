@@ -1,0 +1,58 @@
+<%-include('partial/HeadAnnotations.ejs') %>
+<body>
+  <% bookPreface.forEach(function(el){%>
+  <div class="container1">
+    <div class="colum1">
+      <div class="home">
+        <a href="/home">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            height="30px"
+            viewBox="0 -960 960 960"
+            width="30px"
+            fill="#4F674F"
+          >
+            <path
+              d="M200-160v-377.92l-83.23 64-18.31-24.16L200-576v-100.92h30.77v76.46L480-790l381.54 292.15-18.31 23.93-83.23-64V-160H530.77v-221.54H429.23V-160H200Zm0-569.23q0-34.46 22.12-58.77 22.11-24.31 62.5-24.31 27.92 0 40.88-15.38 12.96-15.39 12.96-36.93h30.77q0 34.24-21.61 58.66-21.62 24.42-63 24.42-27.7 0-40.77 15.27-13.08 15.27-13.08 37.04H200Z"
+            />
+          </svg>
+        </a>
+      </div>
+      <div class="picture">
+        <img
+          src="https://covers.openlibrary.org/b/olid/<%=el.olid%>-M.jpg"
+          alt="books cover"
+        />
+      </div>
+      <div class="button"><input type="button" value="Add to my Books" /></div>
+      <div class="description">
+        <p class="autor">Autor: <%= el.autor %></p>
+        <p class="publish_Date">Publish date: <%= el.date %></p>
+        <p class="language">Language: <%= el.language %></p>
+        <p class="pages">Pages: <%= el.pages %></p>
+        <p class="subject">Subject: <%= el.type %></p>
+      </div>
+    </div>
+    <div class="colum2">
+      <p class="title">Preface</p>
+      <p class="text"><%=el.description %></p>
+      <div class="buttons">
+        <input src="" type="button" class="edit" value="Edit" />
+        <input type="button" class="delete" value="delete" />
+      </div>
+      <a href=""
+        ><svg
+          xmlns="http://www.w3.org/2000/svg"
+          height="40px"
+          viewBox="0 -960 960 960"
+          width="40px"
+          fill="#e8eaed"
+        >
+          <path
+            d="M448.67-280h66.66v-164H680v-66.67H515.33V-680h-66.66v169.33H280V-444h168.67v164Zm31.51 200q-82.83 0-155.67-31.5-72.84-31.5-127.18-85.83Q143-251.67 111.5-324.56T80-480.33q0-82.88 31.5-155.78Q143-709 197.33-763q54.34-54 127.23-85.5T480.33-880q82.88 0 155.78 31.5Q709-817 763-763t85.5 127Q880-563 880-480.18q0 82.83-31.5 155.67Q817-251.67 763-197.46q-54 54.21-127 85.84Q563-80 480.18-80Z"
+          /></svg
+      ></a>
+    </div>
+  </div>
+  <% }) %>
+</body>
