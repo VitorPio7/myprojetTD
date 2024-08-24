@@ -24,7 +24,9 @@
           alt="books cover"
         />
       </div>
-      <div class="button"><input type="button" value="Add to my Books" /></div>
+      <div class="button">
+        <input type="button" value="Add to my Books" />
+      </div>
       <div class="description">
         <p class="autor">Autor: <%= el.autor %></p>
         <p class="publish_Date">Publish date: <%= el.date %></p>
@@ -37,10 +39,10 @@
       <p class="title">Preface</p>
       <p class="text"><%=el.description %></p>
       <div class="buttons">
-        <input src="" type="button" class="edit" value="Edit" />
-        <input type="button" class="delete" value="delete" />
+        <input href="/edit" src="" type="button" class="edit" value="Edit" />
+        <input href="/delete" type="button" class="delete" value="delete" />
       </div>
-      <a href=""
+      <a href="/add_annotaions"
         ><svg
           xmlns="http://www.w3.org/2000/svg"
           height="40px"

@@ -1,6 +1,5 @@
 <%-include('partial/HeadPreface.ejs') %>
 <body>
-  <% bookPreface.forEach(function(el){%>
   <div class="container1">
     <div class="colum1">
       <div class="home">
@@ -20,17 +19,17 @@
       </div>
       <div class="picture">
         <img
-          src="https://covers.openlibrary.org/b/olid/<%=el.olid%>-M.jpg"
+          src="https://covers.openlibrary.org/b/olid/<%=cover%>-M.jpg"
           alt="books cover"
         />
       </div>
       <div class="button"><input type="button" value="Add to my Books" /></div>
       <div class="description">
-        <p class="autor">Autor: <%= el.autor %></p>
-        <p class="publish_Date">Publish date: <%= el.date %></p>
-        <p class="language">Language: <%= el.language %></p>
-        <p class="pages">Pages: <%= el.pages %></p>
-        <p class="subject">Subject: <%= el.type %></p>
+        <p class="autor">Autor: <%= autor %></p>
+        <p class="publish_Date">Publish date: <%= date %></p>
+        <p class="language">Language: En</p>
+        <p class="pages">Pages: <%= pages %></p>
+        <p class="subject">Subject: <%= subject %></p>
       </div>
     </div>
     <div class="colum2">
@@ -38,5 +37,4 @@
       <p class="text"><%=el.description %></p>
     </div>
   </div>
-  <% }) %>
 </body>

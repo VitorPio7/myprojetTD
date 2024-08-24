@@ -1,4 +1,5 @@
 import pg from 'pg';
+import axios from 'axios';
 
 const books = new pg.Client({
     user: 'postgres',
@@ -10,6 +11,15 @@ const books = new pg.Client({
 
 
 books.connect();
+export async function resultBook(name) {
+    try {
+        const response = await axios.get(`https://openlibrary.org/search.json?q=${name}&limit=10`);
+        return response.data;
+    }
+    catch (err) {
+        console.log(err)
+    }
+}
 
 export async function allBooks() {
     try {
@@ -28,10 +38,11 @@ export async function searchBookbyId(id) {
         console.error(err);
     }
 }
-export async function searchBook(info) {
+
+export async function addAnnotationBook(text, id) {
     try {
-        const response = await axios.get(`https://openlibrary.org/search.json?q=${info}`);
-        return response.data
+        const res = await books.query('UPDATE annotations SET annotationText = $1 WHERE id = $2 ', [text, id])
+        return res.rows
     } catch (err) {
         console.error(err);
     }
