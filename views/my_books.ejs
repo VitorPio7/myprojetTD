@@ -16,12 +16,10 @@
   </div>
   <div class="container2">
     <% if(locals.bookid){ %> <% bookid.forEach(function(el){%>
-    <div class="id<%= el.id %>">
-      <img
-        src="https://covers.openlibrary.org/b/olid/<%=el.olid%>-M.jpg"
-        alt="cover_book"
-        width="100px"
-      />
+    <div class="<%= el.id %>" name="<%= el.id %>">
+      <a href="/myAnnotations/<%= el.id %>">
+        <img src="<%= el.image %>" alt="cover_book" width="100px" />
+      </a>
       <h4><%=el.name%></h4>
       <p><%=el.autor%></p>
     </div>
