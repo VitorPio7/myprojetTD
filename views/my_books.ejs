@@ -16,7 +16,7 @@
   </div>
   <div class="container2">
     <% if(locals.bookid){ %> <% bookid.forEach(function(el){%>
-    <div class="<%= el.id %>" name="<%= el.id %>">
+    <div>
       <a href="/myAnnotations/<%= el.id %>">
         <img src="<%= el.image %>" alt="cover_book" width="100px" />
       </a>

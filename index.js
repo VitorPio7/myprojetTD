@@ -4,6 +4,7 @@ import axios from 'axios';
 import pg from 'pg';
 
 
+
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(express.static('public'));
@@ -67,11 +68,15 @@ app.post('/postBank', async (req, res) => {
     const img = req.body.img;
     img.toString()
     console.log({ title, autor, date, language, pages, subject, description, img })
-    await books.query(
-        'INSERT INTO mybooks (name, autor, language, image, description, type, pages, date) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)',
-        [title, autor, language, img, description, subject, pages, date]
-    );
-    res.redirect('/')
+    try {
+        await books.query(
+            'INSERT INTO mybooks (name, autor, language, image, description, type, pages, date) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)',
+            [title, autor, language, img, description, subject, pages, date]
+        );
+        res.redirect('/')
+    } catch (error) {
+        res.status(404).send(error)
+    }
 
 })
 app.get('/myAnnotations/:id', async (req, res) => {
@@ -82,9 +87,24 @@ app.get('/myAnnotations/:id', async (req, res) => {
     console.log(idBook);
     try {
         const bookid = (await books.query('SELECT * FROM mybooks WHERE id = $1', [idBook])).rows;
-        res.render('My_annotations.ejs', { bookid: bookid });
+        const myAnnotations = (await books.query('SELECT * FROM annotations WHERE book_id = $1', [idBook])).rows;
+        console.log(myAnnotations)
+        res.render('My_annotations.ejs', {
+            bookid: bookid,
+            myAnnotations: myAnnotations
+        });
     } catch (error) {
         res.status(500).send('Server Error');
+    }
+})
+app.get('/remove/:id', async (req, res) => {
+    const idBook = parseInt(req.params.id, 10)
+    console.log(idBook)
+    try {
+        await books.query('DELETE FROM mybooks WHERE id = $1', [idBook])
+        res.redirect('/')
+    } catch (error) {
+        res.status(404).send(error)
     }
 })
 
