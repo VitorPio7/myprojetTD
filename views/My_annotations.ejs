@@ -13,6 +13,7 @@
       href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
     />
     <link rel="stylesheet" href="/css/MyAnnotations.css" />
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   </head>
 </html>
 <body>
@@ -54,24 +55,27 @@
     <div class="colum2">
       <p class="title">Preface</p>
       <% }) %> <% myAnnotations.forEach(function(el){ %>
-      <p class="text" id="edit<%=el.id %>"><%=el.annotation_text %></p>
+      <p class="text" id="<%=el.id %>"><%=el.annotation_text %></p>
 
       <div class="buttons">
-        <input
-          href="/edit"
-          src=""
-          type="button"
-          id="edit<%= el.id %>"
-          class="edit"
-          value="Edit"
-        />
-        <input
-          href="/delete"
-          type="button"
-          id="delete<%= el.id %>"
-          class="delete"
-          value="delete"
-        />
+        <a href="/edit">
+          <input
+            href="/edit"
+            type="button"
+            id="<%= el.id %>"
+            class="edit"
+            value="Edit"
+          />
+        </a>
+        <a href="/delete">
+          <input
+            href="/delete"
+            type="button"
+            id="<%= el.id %>"
+            class="delete"
+            value="delete"
+          />
+        </a>
       </div>
       <% })%>
       <a href="/add_annotaions"
@@ -88,5 +92,4 @@
       ></a>
     </div>
   </div>
-  <script src="/js/index.js"></script>
 </body>

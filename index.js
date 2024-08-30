@@ -67,7 +67,6 @@ app.post('/postBank', async (req, res) => {
     const description = req.body.description;
     const img = req.body.img;
     img.toString()
-    console.log({ title, autor, date, language, pages, subject, description, img })
     try {
         await books.query(
             'INSERT INTO mybooks (name, autor, language, image, description, type, pages, date) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)',
@@ -88,7 +87,6 @@ app.get('/myAnnotations/:id', async (req, res) => {
     try {
         const bookid = (await books.query('SELECT * FROM mybooks WHERE id = $1', [idBook])).rows;
         const myAnnotations = (await books.query('SELECT * FROM annotations WHERE book_id = $1', [idBook])).rows;
-        console.log(myAnnotations)
         res.render('My_annotations.ejs', {
             bookid: bookid,
             myAnnotations: myAnnotations
@@ -107,7 +105,14 @@ app.get('/remove/:id', async (req, res) => {
         res.status(404).send(error)
     }
 })
-
+app.get('/edit', async (req, res) => {
+    res.render("edit_annotations.ejs")
+})
+app.post('/attAnotation', (req, res) => {
+    const catchInfo = req.body.send;
+    console.log(catchInfo)
+    res.redirect('/')
+})
 app.listen(3000, () => {
     console.log("porta 3000")
 })

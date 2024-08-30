@@ -4,3 +4,14 @@ body {
   background-attachment: fixed;
   background-size: cover;
 }
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  flex-direction: column;
+}
+#textChange {
+  width: 70vw;
+  height: 30vh;
+}
