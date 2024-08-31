@@ -33,7 +33,7 @@
   justify-content: center;
   align-items: center;
 }
-.button a input {
+.button input {
   cursor: pointer;
   height: 50px;
   width: 150px;

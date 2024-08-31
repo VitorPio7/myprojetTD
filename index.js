@@ -4,9 +4,8 @@ import axios from 'axios';
 import pg from 'pg';
 
 
-
 const app = express();
-app.use(bodyParser.urlencoded({ extended: true }))
+app.use(express.json());
 app.use(express.static('public'));
 
 const books = new pg.Client({
@@ -105,13 +104,28 @@ app.get('/remove/:id', async (req, res) => {
         res.status(404).send(error)
     }
 })
-app.get('/edit', async (req, res) => {
-    res.render("edit_annotations.ejs")
-})
-app.post('/attAnotation', (req, res) => {
-    const catchInfo = req.body.send;
-    console.log(catchInfo)
-    res.redirect('/')
+
+app.post('/putChange/:id', async (req, res) => {
+
+    const { text } = req.body;
+    console.log("TEXT", text)
+    // const idBook = req.params.id;
+    // const newText = req.body.newText;
+    // const nume = req.body.num;
+    // console.log(nume)
+    // console.log(`Received ID: ${idBook}, newText: ${newText}`);
+    // try {
+    //     const result = await books.query('UPDATE annotations SET annotation_text = $1 WHERE id = $2 RETURNING *', [newText, idBook])
+    //     if (result.rowCount === 0) {
+    //         return res.status(404).json({ success: false, message: 'ID not found' });
+    //     }
+    //     res.redirect(`/putChange/${idBook}`).json({ success: true, data: result.rows[0] });
+    // } catch (error) {
+    //     console.error(error);
+    //     res.status(500).json({ success: false, message: 'Server error' });
+    // }
+
+
 })
 app.listen(3000, () => {
     console.log("porta 3000")

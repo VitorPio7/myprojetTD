@@ -58,24 +58,20 @@
       <p class="text" id="<%=el.id %>"><%=el.annotation_text %></p>
 
       <div class="buttons">
-        <a href="/edit">
-          <input
-            href="/edit"
-            type="button"
-            id="<%= el.id %>"
-            class="edit"
-            value="Edit"
-          />
-        </a>
-        <a href="/delete">
-          <input
-            href="/delete"
-            type="button"
-            id="<%= el.id %>"
-            class="delete"
-            value="delete"
-          />
-        </a>
+        <input
+          href="/edit"
+          type="button"
+          id="<%= el.id %>"
+          class="edit"
+          value="Edit"
+        />
+        <input
+          href="/delete"
+          type="button"
+          id="<%= el.id %>"
+          class="delete"
+          value="delete"
+        />
       </div>
       <% })%>
       <a href="/add_annotaions"
@@ -92,4 +88,5 @@
       ></a>
     </div>
   </div>
+  <script src="/js/indexAnnotation.js"></script>
 </body>
