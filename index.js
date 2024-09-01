@@ -105,26 +105,32 @@ app.get('/remove/:id', async (req, res) => {
     }
 })
 
-app.post('/putChange/:id', async (req, res) => {
-
+app.post('/edit/:id', async (req, res) => {
+    const catchidBody = req.params.id;
+    console.log(catchidBody)
     const { text } = req.body;
-    console.log("TEXT", text)
-    // const idBook = req.params.id;
-    // const newText = req.body.newText;
-    // const nume = req.body.num;
-    // console.log(nume)
-    // console.log(`Received ID: ${idBook}, newText: ${newText}`);
-    // try {
-    //     const result = await books.query('UPDATE annotations SET annotation_text = $1 WHERE id = $2 RETURNING *', [newText, idBook])
-    //     if (result.rowCount === 0) {
-    //         return res.status(404).json({ success: false, message: 'ID not found' });
-    //     }
-    //     res.redirect(`/putChange/${idBook}`).json({ success: true, data: result.rows[0] });
-    // } catch (error) {
-    //     console.error(error);
-    //     res.status(500).json({ success: false, message: 'Server error' });
-    // }
-
+    try {
+        const result = await books.query('UPDATE annotations SET annotation_text = $1 WHERE id = $2 RETURNING *', [text, catchidBody])
+        if (result.rowCount === 0) {
+            return res.status(404).json({ success: false, message: 'ID not found' });
+        }
+        res.status(200).json({ message: "all right" })
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ success: false, message: 'Server error' });
+    }
+})
+app.post('/delete/:id', async (req, res) => {
+    const catchid = req.body.id;
+    const catchidBody = req.params.id;
+    console.log("isso: " + catchidBody)
+    console.log("isso id: " + catchid)
+    try {
+        await books.query('DELETE FROM annotations WHERE id = $1', [catchidBody])
+        res.redirect('/')
+    } catch (error) {
+        res.status(500).json({ success: false, message: 'Server error' });
+    }
 
 })
 app.listen(3000, () => {
