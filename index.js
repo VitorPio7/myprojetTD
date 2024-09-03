@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { query } from 'express';
 import bodyParser from 'body-parser';
 import axios from 'axios';
 import pg from 'pg';
@@ -6,6 +6,7 @@ import pg from 'pg';
 
 const app = express();
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
 
 const books = new pg.Client({
@@ -96,7 +97,6 @@ app.get('/myAnnotations/:id', async (req, res) => {
 })
 app.get('/remove/:id', async (req, res) => {
     const idBook = parseInt(req.params.id, 10)
-    console.log(idBook)
     try {
         await books.query('DELETE FROM mybooks WHERE id = $1', [idBook])
         res.redirect('/')
@@ -107,7 +107,6 @@ app.get('/remove/:id', async (req, res) => {
 
 app.post('/edit/:id', async (req, res) => {
     const catchidBody = req.params.id;
-    console.log(catchidBody)
     const { text } = req.body;
     try {
         const result = await books.query('UPDATE annotations SET annotation_text = $1 WHERE id = $2 RETURNING *', [text, catchidBody])
@@ -121,17 +120,51 @@ app.post('/edit/:id', async (req, res) => {
     }
 })
 app.post('/delete/:id', async (req, res) => {
-    const catchid = req.body.id;
+    const catchid = req.body.idMain;
     const catchidBody = req.params.id;
     console.log("isso: " + catchidBody)
     console.log("isso id: " + catchid)
     try {
         await books.query('DELETE FROM annotations WHERE id = $1', [catchidBody])
-        res.redirect('/')
+        res.redirect(`/myAnnotations/${catchid}`)
     } catch (error) {
         res.status(500).json({ success: false, message: 'Server error' });
     }
 
+})
+app.post('/add-text/:id', async (req, res) => {
+    const book_id = req.params.id;
+    const text_book = req.body.infoText;
+
+    try {
+        await books.query('INSERT INTO annotations(annotation_text,book_id) VALUES($1,$2)', [text_book, book_id])
+        res.redirect(`/myAnnotations/${book_id}`)
+    } catch (error) {
+        res.status(500).json({ success: false, message: 'Server error' });
+    }
+
+});
+
+app.get('/search-suggestions', async (req, res) => {
+    const query = req.query.q;
+    try {
+        const response = await axios.get(`https://www.googleapis.com/books/v1/volumes`, {
+            params: {
+                q: query,
+                maxResults: 10
+            }
+        });
+        const suggestion = response.data.items.map(item => ({
+            title: item.volumeInfo.title
+        }));
+        res.json(suggestion);
+    } catch (error) {
+        console.log('Erro to search suggestions: ', err);
+        res.status(500).send('Erro to search suggestions')
+    }
+})
+app.get('/home', async (req, res) => {
+    res.redirect("/")
 })
 app.listen(3000, () => {
     console.log("porta 3000")
