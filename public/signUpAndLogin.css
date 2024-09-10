@@ -47,7 +47,7 @@ input {
   outline: none;
   border-radius: 5px;
 }
-button {
+input[type="submit"] {
   width: 60%;
   height: 40px;
   margin: 10px auto;
@@ -64,7 +64,7 @@ button {
   transition: 0.2s ease-in;
   cursor: pointer;
 }
-button:hover {
+input[type="submit"]:hover {
   background: #ffbd59;
 }
 .login {
