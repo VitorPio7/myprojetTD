@@ -2,13 +2,19 @@ import express, { query } from 'express';
 import bodyParser from 'body-parser';
 import axios from 'axios';
 import pg from 'pg';
-
+import session from 'express-session';
+import passport from 'passport'
+import { Strategy } from 'passport-local';
 
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
-
+app.use(session({
+    secret: 'keyboard cat',
+    resave: false,
+    saveUninitialized: true,
+}))
 const books = new pg.Client({
     user: 'postgres',
     password: '10203050',
@@ -19,6 +25,9 @@ const books = new pg.Client({
 books.connect()
 
 /*Routes Home*/
+app.get('/login', (req, res) => {
+    res.render('loginAndSignUp.ejs')
+})
 
 app.get('/', async (req, res) => {
     const bookid = (await books.query('SELECT * FROM mybooks')).rows
@@ -26,6 +35,7 @@ app.get('/', async (req, res) => {
         bookid: bookid
     })
 })
+
 app.post('/search', async (req, res) => {
 
     try {
@@ -104,7 +114,27 @@ app.get('/remove/:id', async (req, res) => {
         res.status(404).send(error)
     }
 })
-
+app.get('/search-suggestions', async (req, res) => {
+    const query = req.query.q;
+    try {
+        const response = await axios.get(`https://www.googleapis.com/books/v1/volumes`, {
+            params: {
+                q: query,
+                maxResults: 10
+            }
+        });
+        const suggestion = response.data.items.map(item => ({
+            title: item.volumeInfo.title
+        }));
+        res.json(suggestion);
+    } catch (error) {
+        console.log('Erro to search suggestions: ', err);
+        res.status(500).send('Erro to search suggestions')
+    }
+})
+app.get('/home', async (req, res) => {
+    res.redirect("/")
+})
 app.post('/edit/:id', async (req, res) => {
     const catchidBody = req.params.id;
     const { text } = req.body;
@@ -144,28 +174,21 @@ app.post('/add-text/:id', async (req, res) => {
     }
 
 });
-
-app.get('/search-suggestions', async (req, res) => {
-    const query = req.query.q;
-    try {
-        const response = await axios.get(`https://www.googleapis.com/books/v1/volumes`, {
-            params: {
-                q: query,
-                maxResults: 10
-            }
+app.post('/sendLogin', async (req, res) => {
+    console.log(req.body.email)
+    console.log(req.body.pswd)
+})
+passport.use(new LocalStrategy(
+    function (username, password, done) {
+        User.findOne({ username: username }, function (err, user) {
+            if (err) { return done(err); }
+            if (!user) { return done(null, false); }
+            if (!user.verifyPassword(password)) { return done(null, false); }
+            return done(null, user);
         });
-        const suggestion = response.data.items.map(item => ({
-            title: item.volumeInfo.title
-        }));
-        res.json(suggestion);
-    } catch (error) {
-        console.log('Erro to search suggestions: ', err);
-        res.status(500).send('Erro to search suggestions')
     }
-})
-app.get('/home', async (req, res) => {
-    res.redirect("/")
-})
+));
+
 app.listen(3000, () => {
     console.log("porta 3000")
 })
